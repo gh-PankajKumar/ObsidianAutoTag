@@ -7,7 +7,7 @@ class Vault:
     def __init__(self, vault_dir: str) -> None:
         self.vault_dir = Path(vault_dir)
         self.notes_dir = Path(self.vault_dir) / "1. Notes"
-        self.tag_dir = Path(vault_dir) / "2. MOCs"
+        self.tag_dir = Path(vault_dir) / "3. MOCs"
 
         if not self.vault_dir.is_dir():
             raise FileNotFoundError(f"Vault directory not found: {vault_dir}")
@@ -34,7 +34,7 @@ class Vault:
         return [
             note_path.name
             for note_path in self.notes_dir.glob("*.md")
-            if (note_text := self.read_note(note_path)) and not self.has_tags(note_text)
+            if (note_text := note_path.read_text()) and self._has_tags(note_text)
         ]
 
     @property
@@ -43,7 +43,7 @@ class Vault:
         return [
             note_path.name
             for note_path in self.notes_dir.glob("*.md")
-            if (note_text := self.read_note(note_path)) and not self.has_tags(note_text)
+            if (note_text := note_path.read_text()) and not self._has_tags(note_text)
         ]
 
     # TODO: Is this needed? if Path.read_text() is used
