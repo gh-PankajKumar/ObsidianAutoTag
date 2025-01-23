@@ -1,14 +1,6 @@
 from llama_cpp import Llama
 
 
-llm = Llama.from_pretrained(
-    repo_id="bartowski/Mistral-Nemo-Instruct-2407-GGUF",
-    filename="Mistral-Nemo-Instruct-2407-Q4_K_S.gguf",
-    n_gpu_layers=20,
-    n_ctx=4000,
-)
-
-
 # TODO: Add config loading
 class ModelLoader:
     _instance = None
@@ -19,7 +11,7 @@ class ModelLoader:
 
     def __new__(cls):
         if cls._instance is None:
-            cls._instance = cls()
+            cls._instance = super(ModelLoader, cls).__new__(cls)
         return cls._instance
 
     def __init__(self) -> None:
