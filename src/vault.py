@@ -4,10 +4,10 @@ import logging
 
 
 class Vault:
-    def __init__(self, vault_dir: str) -> None:
+    def __init__(self, vault_dir: str, notes_dir: str, tag_dir: str) -> None:
         self.vault_dir = Path(vault_dir)
-        self.notes_dir = Path(self.vault_dir) / "1. Notes"
-        self.tag_dir = Path(vault_dir) / "3. MOCs"
+        self.notes_dir = Path(notes_dir)
+        self.tag_dir = Path(tag_dir)
 
         if not self.vault_dir.is_dir():
             raise FileNotFoundError(f"Vault directory not found: {vault_dir}")
