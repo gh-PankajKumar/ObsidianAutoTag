@@ -22,7 +22,7 @@ class Vault:
             r"[Tt]ags:?\s*(?:\[\[([^\]]+)\]\]|([^\n\r]+))"
         )
 
-        self._logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger(__name__)
 
     @property
     def existing_tags(self):
@@ -52,7 +52,7 @@ class Vault:
             with open(note_path, "r") as f:
                 return f.read()
         else:
-            self._logger.error(
+            self.logger.error(
                 "Invalid file type. Check the note path to ensure it is a markdown file."
             )
             return None

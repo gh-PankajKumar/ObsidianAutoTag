@@ -1,4 +1,4 @@
-# The Importance of Typography in Branding
+
 
 Tags: [[Branding]], [[Typography]]
 

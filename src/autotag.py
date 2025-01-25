@@ -8,29 +8,28 @@ from .vault import Vault
 
 
 class ObsidianAutoTag:
-    def __init__(self, vault_path: str):
+    def __init__(self, vault_path: str, notes_dir: str, tag_dir: str):
         self.logger = logging.getLogger(__name__)
-        self.vault = Vault(vault_path)
+        self.vault = Vault(vault_path, notes_dir, tag_dir)
         self.llm = ModelLoader().load_model()
 
     @lru_cache(maxsize=100)
     def _get_prompts(self) -> dict:
         """Cache and return prompts to avoid redundant processing."""
-        return get_prompt(self.vault.existing_tags)
+        return get_prompt(tuple(self.vault.existing_tags))
 
     def process_note(self, note_path: Path) -> str:
         """Process a single note and return suggested tags."""
         try:
             note_content = note_path.read_text(encoding="utf-8")
-            prompts = self._get_prompts(self.vault.existing_tags)
+            prompts = self._get_prompts()
             messages = [
                 {"role": "system", "content": prompts["system_prompt"]},
                 {"role": "user", "content": f"{prompts['prompt']} \n {note_content}"},
             ]
             result = self.llm.create_chat_completion(temperature=0.3, messages=messages)
-            return self._extract_tags(
-                result.get("choices", [{}])[0].get("message", {}).get("content", "")
-            )
+            return result.get("choices", [{}])[0].get("message", {}).get("content", "")
+
         except Exception as e:
             self.logger.error(f"Failed to process note {note_path}: {e}")
             return ""

@@ -67,7 +67,7 @@ def get_prompt(existing_tags: List[str]) -> Dict[str, str]:
         - Mix in protein powders before eating
         Suggested Tags: [[Recipes]]
 
-    Now, the existing tags are: {", ".join(f"[[{tag}]]" for tag in existing_tags)}
+    Now, the existing tags are: {existing_tags}
     Categorize the following note:
     """
     return {"system_prompt": system_prompt, "prompt": prompt}

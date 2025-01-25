@@ -1,4 +1,4 @@
-# The Use of "Lorem Ipsum" in Design and Publishing
+
 
 Tags: [[Design]], [[Typography]]
 
